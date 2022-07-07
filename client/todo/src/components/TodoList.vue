@@ -1,5 +1,11 @@
 <template>
   <v-card class="mx-auto" max-width="300" tile>
+    <v-text-field
+      label="Regular"
+      v-model="newTask"
+      placeholder="Enter a new Task"
+      @keyup.enter="createNewTask()"
+    ></v-text-field>
     <v-list>
       <v-list-item-group v-model="selectedItem" color="primary">
         <v-list-item v-for="(item, i) in taskList" :key="i">
@@ -20,7 +26,8 @@ export default Vue.extend({
   name: 'TodoList',
   data () {
     return {
-      selectedItem: {}
+      selectedItem: {},
+      newTask: ''
     }
   },
 
@@ -35,11 +42,15 @@ export default Vue.extend({
     }),
 
     ...mapActions({
-      fetchTasks: 'fetchTasks'
+      fetchTasks: 'fetchTasks',
+      createTask: 'createTask'
     })
   },
 
   methods: {
+    createNewTask () {
+      this.$store.dispatch('createTask', { title: this.newTask, statusText: 'PENDING' })
+    }
   }
 
 })

@@ -3,7 +3,8 @@ import { OK } from '@/middlewares/httpClient'
 import { Task, TodoState, RootState } from '@/model/model'
 
 import {
-  FetchTasks
+  FetchTasks,
+  CreateTask
 } from './apis'
 
 export const actions: ActionTree<TodoState, RootState> = {
@@ -23,18 +24,19 @@ export const actions: ActionTree<TodoState, RootState> = {
       })
   },
 
-  async createTask ({ commit, dispatch }, { name, workspaceId }): Promise<any> {
-    // let flowObject: any = {}
-    // await PostFlow(name, workspaceId)
-    //   .then(({ status, data }) => {
-    //     if (status === OK) {
-    //       flowObject = data
-    //       commit(types.MUTATE_FLOW_CREATED, flowObject)
-    //     }
-    //   })
-    //   .catch((e) => {
-    //     console.log(e)
-    //   })
+  async createTask ({ commit, dispatch }, { title, statusText }): Promise<any> {
+    let task : Task
+    await CreateTask(title, statusText)
+      .then(({ status, data }) => {
+        if (status === OK) {
+          task = data
+          console.log('Create Task ... data from server: ', task)
+          commit('MUTATE_CREATE_TASK', task)
+        }
+      })
+      .catch((e : any) => {
+        console.log(e)
+      })
   }
 
 }
