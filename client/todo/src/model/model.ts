@@ -1,9 +1,9 @@
-export type Task = {
+export interface Task {
   id: string;
   title: string;
   status: string; // later we can improve this by enum
   // priority: string, or we don't need this now
-};
+}
 
 export type TodoState = {
   loading: boolean;
