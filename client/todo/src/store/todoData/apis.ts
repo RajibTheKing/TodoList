@@ -10,7 +10,15 @@ const FetchTasks = () => httpClient
 const CreateTask = (title : string, statusText: string) => httpClient
   .post('/create', { title, statusText })
 
+const UpdateTask = (id : string, statusText: string) => httpClient
+  .post('/update', { id, statusText })
+
+const DeleteTask = (id: string) => httpClient
+  .delete('/delete/' + id)
+
 export {
   FetchTasks,
-  CreateTask
+  CreateTask,
+  UpdateTask,
+  DeleteTask
 }

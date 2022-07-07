@@ -9,5 +9,17 @@ export const mutations: MutationTree<TodoState> = {
   MUTATE_CREATE_TASK (state, payload: Task) {
     state.items.push(payload)
     console.log('After push: ', state.items)
+  },
+
+  MUTATE_UPDATE_TASK (state, payload: Task) {
+    const objIndex = state.items.findIndex((obj) => obj.id === payload.id)
+    state.items[objIndex].status = payload.status
+    console.log('After update: ', state.items)
+  },
+
+  MUTATE_DELETE_TASK (state, payload: Task) {
+    state.items = state.items.filter((x) => x.id !== payload.id)
+    console.log('After Delete: ', state.items)
   }
+
 }

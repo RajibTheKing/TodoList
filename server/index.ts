@@ -58,6 +58,37 @@ app.post('/create', (req, res) => {
     res.send(newTask);
 })
 
+
+app.post('/update', (req, res) => {
+  console.log("req.body: ", req.body);
+    var id = req.body.id;
+    var statusText = req.body.statusText;
+    console.log("TheKing--> inside POST /update: ", id, statusText)
+
+    const objIndex = taskList.findIndex((obj) => obj.id === id)
+    taskList[objIndex].status = statusText;
+    
+    res.send(taskList[objIndex]);
+})
+
+app.delete('/delete/:id', (req, res) => {
+  console.log("req.params.id: ", req.params.id);
+    var id = req.params.id;
+    
+    console.log("TheKing--> inside DELETE /delete: ", id)
+
+    
+    const objIndex = taskList.findIndex((obj) => obj.id === id)
+    const task = {
+      id: taskList[objIndex].id,
+      title: taskList[objIndex].title,
+      status: taskList[objIndex].status
+    }
+    
+    taskList = taskList.filter((x) => x.id !== id);
+    res.send(task);
+})
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })

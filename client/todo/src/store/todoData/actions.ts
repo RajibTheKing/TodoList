@@ -4,7 +4,9 @@ import { Task, TodoState, RootState } from '@/model/model'
 
 import {
   FetchTasks,
-  CreateTask
+  CreateTask,
+  UpdateTask,
+  DeleteTask
 } from './apis'
 
 export const actions: ActionTree<TodoState, RootState> = {
@@ -32,6 +34,36 @@ export const actions: ActionTree<TodoState, RootState> = {
           task = data
           console.log('Create Task ... data from server: ', task)
           commit('MUTATE_CREATE_TASK', task)
+        }
+      })
+      .catch((e : any) => {
+        console.log(e)
+      })
+  },
+
+  async updateTask ({ commit, dispatch }, { id, statusText }): Promise<any> {
+    let task : Task
+    await UpdateTask(id, statusText)
+      .then(({ status, data }) => {
+        if (status === OK) {
+          task = data
+          console.log('Create Task ... data from server: ', task)
+          commit('MUTATE_UPDATE_TASK', task)
+        }
+      })
+      .catch((e : any) => {
+        console.log(e)
+      })
+  },
+
+  async deleteTask ({ commit, dispatch }, { id }): Promise<any> {
+    let task : Task
+    await DeleteTask(id)
+      .then(({ status, data }) => {
+        if (status === OK) {
+          task = data
+          console.log('Delete Task ... data from server: ', task)
+          commit('MUTATE_DELETE_TASK', task)
         }
       })
       .catch((e : any) => {
